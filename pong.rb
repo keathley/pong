@@ -1,6 +1,7 @@
 require 'gosu'
 
 # Game classes
+require './drawable.rb'
 require './ball.rb'
 require './paddle.rb'
 
@@ -10,6 +11,9 @@ class Pong < Gosu::Window
 
   def initialize(width=768, height=576, fullscreen=false)
     super
+  end
+
+  def setup
     self.caption = "Pong"
     @left_score = 0
     @right_score = 0
@@ -18,6 +22,7 @@ class Pong < Gosu::Window
     build_ball!
     @left_paddle = Paddle.new(:left, true)
     @right_paddle = Paddle.new(:right)
+    self
   end
 
   def draw
@@ -54,8 +59,12 @@ class Pong < Gosu::Window
       @left_paddle.down! if button_down?(Gosu::KbS)
     end
 
-    @right_paddle.up! if button_down?(Gosu::KbUp)
-    @right_paddle.down! if button_down?(Gosu::KbDown)
+    if @right_paddle.ai?
+      @right_paddle.ai_move!(@ball)
+    else
+      @right_paddle.up! if button_down?(Gosu::KbUp)
+      @right_paddle.down! if button_down?(Gosu::KbDown)
+    end
   end
 
   def handle_collision_detection!
@@ -74,4 +83,4 @@ class Pong < Gosu::Window
   end
 end
 
-Pong.new.show
+Pong.new.setup.show

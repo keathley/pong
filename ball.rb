@@ -1,4 +1,6 @@
 class Ball
+  include Drawable
+
   SIZE = 16
 
   attr_reader :x, :y, :angle, :speed
@@ -10,17 +12,6 @@ class Ball
     @angle = rand(120) + 30
     @angle *= -1 if rand > 0.5
     @speed = 6
-  end
-
-  def draw(window)
-    color = Gosu::Color::RED
-
-    window.draw_quad(
-      x1, y1, color,
-      x1, y2, color,
-      x2, y2, color,
-      x2, y1, color
-    )
   end
 
   def move!
@@ -78,6 +69,10 @@ class Ball
   def y2; @y + SIZE/2; end
 
   private
+
+  def color
+    Gosu::Color::RED
+  end
 
   def dx
     Gosu.offset_x(angle, speed)

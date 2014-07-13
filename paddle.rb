@@ -1,4 +1,6 @@
 class Paddle
+  include Drawable
+
   WIDTH = 16
   HEIGHT = 96
   SPEED = 6
@@ -12,24 +14,12 @@ class Paddle
     @y = Pong::HEIGHT / 2
   end
 
-  def draw(window)
-    color = Gosu::Color::WHITE
-
-    window.draw_quad(
-      x1, y1, color,
-      x1, y2, color,
-      x2, y2, color,
-      x2, y1, color
-    )
-  end
-
   def ai_move!(ball)
-    if (y - ball.y).abs > SPEED
-      if y > ball.y
-        up!
-      else
-        down!
-      end
+    return unless (y - ball.y).abs > SPEED
+    if y > ball.y
+      up!
+    else
+      down!
     end
   end
 
@@ -74,5 +64,9 @@ class Paddle
 
   def dy
     SPEED
+  end
+
+  def color
+    Gosu::Color::WHITE
   end
 end
