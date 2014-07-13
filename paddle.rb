@@ -25,18 +25,12 @@ class Paddle
 
   def up!
     @y -= dy
-
-    if y1 < 0
-      @y = HEIGHT/2
-    end
+    @y = HEIGHT/2 if y1 < 0
   end
 
   def down!
     @y += dy
-
-    if y2 > Pong::HEIGHT
-      @y = Pong::HEIGHT - HEIGHT / 2
-    end
+    @y = Pong::HEIGHT - HEIGHT / 2 if y2 > Pong::HEIGHT
   end
 
   def x1
